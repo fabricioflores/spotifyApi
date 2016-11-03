@@ -33,4 +33,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.0'
     provided 'org.glassfish:javax.annotation:10.0-b28'
     compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

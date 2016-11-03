@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.fabricioflores.spotifyapi.R;
 import com.example.fabricioflores.spotifyapi.models.Item;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,46 +53,13 @@ public class ArtistsAdapter extends ArrayAdapter<Item> {
 
         // Setup.
         if(artista.getImages().size() > 0){
-            new MyTask(image).execute(artista.getImages().get(0).getUrl());
+            Picasso.with(contexto).load(artista.getImages().get(0).getUrl()).placeholder(android.R.drawable.btn_default).into(image);
         }else{
             Bitmap largeIcon = BitmapFactory.decodeResource(contexto.getResources(), android.R.drawable.btn_default);
             image.setImageBitmap(largeIcon);
         }
         name.setText(artista.getName());
-
         return layoutPersona;
     }
 
-    private class MyTask extends AsyncTask<String, Void, Bitmap> {
-
-        ImageView image;
-
-        public MyTask(ImageView image){
-            this.image = image;
-        }
-
-        protected Bitmap doInBackground(String... stringUrls) {
-            try {
-                String stringUrl = stringUrls[0];
-                URL url = new URL(stringUrl);
-                HttpURLConnection urlcon = (HttpURLConnection) url.openConnection();
-                urlcon.setDoInput(true);
-                urlcon.connect();
-                InputStream in = urlcon.getInputStream();
-                Bitmap mIcon = BitmapFactory.decodeStream(in);
-                return  mIcon;
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        protected void onProgressUpdate() {
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            image.setImageBitmap(result);
-        }
-    }
 }
